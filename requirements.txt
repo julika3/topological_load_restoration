@@ -1,0 +1,11 @@
+plotly
+pandas~=2.2.3
+networkx~=3.4.2
+matplotlib
+plotly~=6.0.0
+numpy~=2.2.2
+cvxpy~=1.6.4
+kaleido==0.2.1
+openpyxl
+cvxpy
+highspy~=1.10.00
