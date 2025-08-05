@@ -222,24 +222,29 @@ def run_scenario(restoration_network, node, build=False, shutdown=False, append_
         run_superposition_restoration(restoration_network, visualise=False,
                                       identifier=f'{scenario_dict[SCENARIO_NAME]}_superposition')
         if visualise:
-            visualise_path_deviation(retrieve_relevant_comparison_data(f'base_scenario_superposition',
-                                                                       RESULT_FILEPATH),
-                                     optimum=restoration_network.get_closest_power_stations(True), strategy='superposition')
+            visualise_path_deviation(base_case=retrieve_relevant_comparison_data(
+                                        f'base_scenario_superposition', RESULT_FILEPATH),
+                                     scenario_case=retrieve_relevant_comparison_data(
+                                         f'{scenario_dict[SCENARIO_NAME]}_superposition', RESULT_FILEPATH),
+                                     strategy='superposition')
     if (exec_strategy == 'resilienzindikatoren') | (exec_strategy == 'all'):
         run_resilience_indicator_restoration(restoration_network, visualise=False,
                                              identifier=f'{scenario_dict[SCENARIO_NAME]}_resilienzindikatoren')
         if visualise:
-            visualise_path_deviation(retrieve_relevant_comparison_data(f'base_scenario_resilienzindikatoren',
-                                                                       RESULT_FILEPATH),
-                                     optimum=restoration_network.get_closest_power_stations(True), strategy='resilienzindikatoren')
+            visualise_path_deviation(base_case=retrieve_relevant_comparison_data(
+                                        f'base_scenario_resilienzindikatoren', RESULT_FILEPATH),
+                                     scenario_case=retrieve_relevant_comparison_data(
+                                         f'{scenario_dict[SCENARIO_NAME]}_resilienzindikatoren', RESULT_FILEPATH),
+                                     strategy='resilienzindikatoren')
     if (exec_strategy == 'optimierung') | (exec_strategy == 'all'):
         run_optimisation_restoration(restoration_network, visualise=False,
                          dataset_identifier=f'{scenario_dict[SCENARIO_NAME]}_optimierung')
         if visualise:
-            visualise_path_deviation(retrieve_relevant_comparison_data(f'base_scenario_optimierung',
-                                                                       RESULT_FILEPATH),
-                                     optimum=restoration_network.get_closest_power_stations(True), strategy='optimierung')
-
+            visualise_path_deviation(base_case=retrieve_relevant_comparison_data(
+                                        f'base_scenario_optimierung', RESULT_FILEPATH),
+                                     scenario_case=retrieve_relevant_comparison_data(
+                                         f'{scenario_dict[SCENARIO_NAME]}_optimierung', RESULT_FILEPATH),
+                                     strategy='optimierung')
 
     res = strategy_scenario_comparison(restoration_network,
                                        scenario_type='Neubau' if build else 'Abschaltung',
