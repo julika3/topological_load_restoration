@@ -2,6 +2,7 @@
 main.py:
 - create a RestorationNetwork class object for your network and run the executables
 - filepaths and model name must previously be specified in constants.py
+- an example network was included in the data folder
 
 constants.py:
 - specifies the filenames for the network model and additional substation information plus header names in said files
@@ -24,3 +25,6 @@ additional_finctionalities includes:
 - ValidationError.py (raised if load_restoration results are implausible)
 - helper_functions.py (functions for saving and retrieving data; conditional printing to console)
 - visualisation.py (all result visualisation functions)
+
+data
+- include your network_model and substation_info files here
