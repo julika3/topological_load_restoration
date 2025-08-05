@@ -6,8 +6,8 @@ import pandas as pd
 from constants import SLACK, SCENARIO_NAME, SCENARIO_LOCATION, SCENARIO_GENERATION_VALUE, \
     SCENARIO_DESCRIPTION
 from RestorationNetwork import RestorationNetwork
-from helper_functions import print_me
-from load_restoration_strategy_functions import validate_result, evaluate_restoration_result
+from additional_functionalities.helper_functions import print_me
+from analysis.load_restoration_strategy_functions import validate_result, evaluate_restoration_result
 
 
 class Node(object):

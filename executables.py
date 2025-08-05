@@ -1,15 +1,12 @@
-## all functions in here should ideally take little more parameters than a restoration network:
-# most changes should be made in the constants file
-
 from RestorationNetwork import RestorationNetwork
-from load_restoration_strategy_functions import superposition_regard_load, restoration_dispatch_evaluation, \
+from analysis.load_restoration_strategy_functions import superposition_regard_load, restoration_dispatch_evaluation, \
     resilience_indicator_strategy, strategy_scenario_comparison, compile_edc_indicators_for_load_restoration
-from optimisation_strategy_functions import perform_optimisation, find_optimal_new_location
-from network_evaluation import (get_ranked_distances, compare_modes_of_betweenness_centrality,
-                                compare_modes_of_closeness_centrality, compare_modes_of_degree_centrality)
-from visualisation import shortest_distance_matrix_heatmap, plot_restored_generation, visualise_centrality, \
+from analysis.optimisation_strategy_functions import perform_optimisation, find_optimal_new_location
+from analysis.resilience_indicators import (get_ranked_distances, compare_modes_of_betweenness_centrality,
+                                            compare_modes_of_closeness_centrality, compare_modes_of_degree_centrality)
+from additional_functionalities.visualisation import shortest_distance_matrix_heatmap, plot_restored_generation, visualise_centrality, \
     visualise_electric_degree_centrality, visualise_path_deviation
-from helper_functions import *
+from additional_functionalities.helper_functions import *
 from constants import *
 
 

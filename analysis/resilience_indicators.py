@@ -4,43 +4,6 @@ from math import e
 from RestorationNetwork import RestorationNetwork
 
 
-def get_distance_to_ps_df(graph, ps_list, ss_list):
-    """
-
-    :param graph: networkx graph type network model
-    :param ps_list: list of power stations (that are relevant for shortest paths)
-    :param ss_list: list of substations
-    :return: shortest_distance_matrix: dataframe with substation columns and power station rows detailing
-             the shortest path length between them
-    """
-    # empty dataframes for the results
-    distance_to_ps = pd.DataFrame(ps_list, columns=['Power_Stations'])
-
-    for ss in graph.nodes:
-        # do not regard shortest paths from power station to power station
-        # thyrow is an exception bc it also has a load
-        if (ss in ps_list) & (ss not in ss_list):
-            continue
-        distance_tuples = []
-        ps_nodes = []
-        for ps in ps_list:
-            # for substation ss check the shortest path to power station ps
-            try:
-                nodes = nx.dijkstra_path_length(graph, ss, ps)
-            except nx.NetworkXNoPath:
-                nodes = 99
-            distance_tuples.append((ps, nodes))
-            ps_nodes.append(nodes)
-
-        res_temp = pd.DataFrame(zip(ps_list, ps_nodes), columns=['Power_Stations', ss])
-
-        # add the distances (in nodes) to the result df
-        distance_to_ps = pd.concat([distance_to_ps, res_temp[[ss]]], axis=1)
-
-    distance_to_ps = distance_to_ps.set_index('Power_Stations')
-    return distance_to_ps
-
-
 def get_ranked_distances(distance_to_ps):
     ps_nodes_rank = distance_to_ps.copy()
     for ss in distance_to_ps.columns:

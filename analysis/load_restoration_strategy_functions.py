@@ -1,12 +1,8 @@
-import pandas as pd
-import networkx as nx
-
 from constants import *
 from RestorationNetwork import RestorationNetwork
-from helper_functions import *
-from ValidationError import *
-from network_evaluation import electrical_degree_centrality
-from helper_functions import retrieve_relevant_comparison_data
+from additional_functionalities.helper_functions import *
+from additional_functionalities.ValidationError import *
+from analysis.resilience_indicators import electrical_degree_centrality
 
 
 def superposition_regard_load(restoration_network: RestorationNetwork,
