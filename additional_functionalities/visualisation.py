@@ -7,7 +7,7 @@ from constants import *
 from additional_functionalities.helper_functions import save_figure, save_figures_to_file
 
 
-def versorgungsgrad(load_sum, generation_series, scenario):
+def versorgungsgrad(load_sum, generation_series, scenario, color_dict=ASSIGNED_COLORS):
     gen_sum = generation_series.sum()
     vg = gen_sum / load_sum
     generation_series.sort_values(ascending=False, inplace=True)
@@ -43,7 +43,7 @@ def versorgungsgrad(load_sum, generation_series, scenario):
 
     fig.add_trace(go.Pie(labels=labels,
                          values=values, hole=.55,
-                         marker_colors=[ASSIGNED_COLORS.get(ps, 'black') for ps in labels],
+                         marker_colors=[color_dict.get(ps, 'black') for ps in labels],
                          sort=False, direction ='clockwise',
                          text=generation_series.map(lambda x: f'{int(round(x, 0))} MW'),
                          textfont_size=30, textinfo='label',#textfont_color='White',
@@ -51,7 +51,7 @@ def versorgungsgrad(load_sum, generation_series, scenario):
                          ), row=1, col=2)
     fig.add_trace(go.Pie(labels=labels,
                          values=values, hole=.55,
-                         marker_colors=[ASSIGNED_COLORS.get(ps, 'black') for ps in labels],
+                         marker_colors=[color_dict.get(ps, 'black') for ps in labels],
                          sort=False, direction ='clockwise',
                          text=[f'{int(round(x, 0))} MW' for x in values],
                          textfont_size=30, textinfo='text', textfont_color='White',
@@ -166,7 +166,7 @@ def shortest_distance_matrix_heatmap(sdm_df, ranked_lengths=False, show_values=F
     return fig
 
 
-def visualise_centrality(comp_df, mode='Betweenness', show=SHOW_FIGS, save_as=False):
+def visualise_centrality(comp_df, mode='Betweenness', color_dict=ASSIGNED_COLORS, show=SHOW_FIGS, save_as=False):
     fig = go.Figure()
     if mode == 'Betweenness':
         comp_df = comp_df[comp_df[f'{mode} Centrality'] > 0]
@@ -189,7 +189,7 @@ def visualise_centrality(comp_df, mode='Betweenness', show=SHOW_FIGS, save_as=Fa
     # workaround to set the required colors for tick labels
     tick_labels = []
     for tick in tickvals:
-        if tick in ASSIGNED_COLORS.keys():
+        if tick in color_dict.keys():
             label = f'<span style="color:#E64D67">{tick}</span>'
         else:
             label = str(tick)
@@ -221,7 +221,8 @@ def plot_restored_generation(dispatched_power_df, strategy='Superposition', last
     return fig
 
 
-def realised_dispatch_bar_chart(dp_df, load_series, load_name, strategy, relative_values, show_sum=False):
+def realised_dispatch_bar_chart(dp_df, load_series, load_name, strategy, relative_values, show_sum=False,
+                                color_dict=ASSIGNED_COLORS):
     """
     Creates a stacked bar chart showing how distributed generation covers substation loads.
 
@@ -271,7 +272,7 @@ def realised_dispatch_bar_chart(dp_df, load_series, load_name, strategy, relativ
     # Add stacked bars for each power station
     for ps in reversed(dp_df.index):
         fig.add_trace(go.Bar(x=dp_df.columns, y=dp_df.loc[ps].values.tolist(), name=ps,
-                             marker_color=ASSIGNED_COLORS.get(ps, '#2F2D30')))
+                             marker_color=color_dict.get(ps, '#2F2D30')))
 
     # Update layout labels and legend
     fig.update_layout(barmode='stack', xaxis_dtick=1, height=600, width=1200,
@@ -317,7 +318,8 @@ def visualise_electric_degree_centrality(edc_df, show=SHOW_FIGS, save_as=False):
     return fig
 
 
-def visualise_path_deviation(scenario_case, base_case=None, optimum=None, strategy='', show=SHOW_FIGS, save_as=False):
+def visualise_path_deviation(scenario_case, base_case=None, optimum=None, strategy='', color_dict=ASSIGNED_COLORS,
+                             show=SHOW_FIGS, save_as=False):
     result1, paths1, scenario1 = scenario_case
     distances1 = paths1[result1 > 1]
 
@@ -345,13 +347,13 @@ def visualise_path_deviation(scenario_case, base_case=None, optimum=None, strate
     for n, ps in enumerate(iterator):
         fig.add_trace(go.Bar(x=sorter.index.tolist(), name=ps,
                              y=distances2[sorter.index.tolist()].loc[ps].values.tolist(),
-                             marker_color=ASSIGNED_COLORS.get(ps, '#2F2D30'),
+                             marker_color=color_dict.get(ps, '#2F2D30'),
                              showlegend=ps=='Nächstmögliches Kraftwerk',
                              legendgroup=2),
                       row=1, col=1, secondary_y=False)
         fig.add_trace(go.Bar(x=sorter.index.tolist(),  name=ps,
                              y=(-distances1)[sorter.index.tolist()].loc[ps].values.tolist(),
-                             marker_color=ASSIGNED_COLORS.get(ps, '#2F2D30'),
+                             marker_color=color_dict.get(ps, '#2F2D30'),
                              showlegend=ps!='Nächstmögliches Kraftwerk',
                              legendgroup=n<4),
                       row=1, col=1, secondary_y=True)

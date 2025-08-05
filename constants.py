@@ -1,9 +1,10 @@
 # specify network name here
-NETWORK_MODEL_NAME = ''
+NETWORK_MODEL_NAME = 'example'
 
-NETWORK_MODELS = {NETWORK_MODEL_NAME: {'filepath_network': 'network_model.xlsx',
-                                       'filepath_substation_infos': 'substation_infos.xlsx'},
-                  }
+NETWORK_MODELS = {'template': {'filepath_network': 'network_model_template.xlsx',
+                               'filepath_substation_infos': 'substation_infos_template.xlsx'},
+                  'example': {'filepath_network': 'example_network.xlsx',
+                               'filepath_substation_infos': 'example_substation_infos.xlsx'}}
 
 
 LOAD_CASE = 'load_case_1'  # 'load_case_2'
@@ -36,14 +37,16 @@ SCENARIO_PARAMETERS = {'network_model_name': NETWORK_MODEL_NAME,
 SOLUTION_DICT = {}
 RESULT_FILEPATH = 'simulation_results.json'
 
-ASSIGNED_COLORS = {'Boxberg': '#33BECC',
-                   'Jaenschwalde': '#0074A8',
-                   'Lippendorf': '#D56231',
-                   'Reuter-West': '#CFBB7B',
-                   'Rostock': '#B5BAB6',
-                   'Schkopau': '#77202E',
-                   'Schwarze Pumpe': '#4B6D41',
-                   'Thyrow': '#6F6C70'}
+
+# assign colors to the power stations
+ASSIGNED_COLORS = {'KW1': '#33BECC',
+                   'KW2': '#0074A8',
+                   'A': '#D56231',
+                   'B': '#CFBB7B',
+                   'C': '#B5BAB6',
+                   'D': '#77202E',
+                   'E': '#4B6D41',
+                   'F': '#6F6C70'}
 
 
 # in MW --> this achieves the same total load (for 60 nodes) as the Mean load estimate for 50Hertz substations
