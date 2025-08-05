@@ -13,33 +13,6 @@ def print_me(print_statement):
         print(print_statement)
 
 
-def result_table_from_scenarios(identifier_list, path=RESULT_FILEPATH, filename=None):
-    info_pairs = {'load_factor': 'Versorgungsgrad',
-                  'total_path_length': 'Gesamte Pfadlänge',
-                  'total_path_deviation': 'Gesamte Pfadabweichung',
-                  'mean_path_length': 'Mittlere Pfadlänge',
-                  'mean_path_deviation': 'Mittlere Pfadabweichung'}
-    res = pd.DataFrame(columns=identifier_list, index=info_pairs.values())
-    for identifier in identifier_list:
-        data = json_to_dict(path, identifier)
-        vals = [data['solution'][x] for x in info_pairs.keys()]
-        res[identifier] = vals
-
-    if filename is not None:
-        res.round(4).to_excel(f'{filename}.xlsx')
-    return res
-
-
-if __name__ == '__main__':
-    #res = result_table_from_scenarios(['base_scenario_superposition', 'base_scenario_resilienzindikatoren',
-    #                                   'base_scenario_optimisation'])
-    #res.round(4).to_excel('Vergleich_der_VWA-Strategien_im_Basisszenario.xlsx')
-
-    id_list = [f'Abschaltung_Rostock_{x}' for x in ['superposition', 'resilienzindikatoren', 'optimierung']]
-    filename = f'Vergleich_der_VWA-Strategien_Abschaltung_Rostock.xlsx'
-    result_table_from_scenarios(id_list, filename=filename)
-
-
 def generate_color_dict(ps_list):
     color_list = qualitative.Alphabet + qualitative.Light24
     color_dict = dict([(ps, color_list[n]) for (n, ps) in enumerate(ps_list)])

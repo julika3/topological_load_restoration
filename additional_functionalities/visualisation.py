@@ -1,10 +1,10 @@
-import pandas as pd
 from plotly import graph_objects as go
 from plotly.subplots import make_subplots
 from numpy import arange
+from pandas import DataFrame
 
 from constants import *
-from helper_functions import save_figure, save_figures_to_file
+from additional_functionalities.helper_functions import save_figure, save_figures_to_file
 
 
 def versorgungsgrad(load_sum, generation_series, scenario):
@@ -333,7 +333,7 @@ def visualise_path_deviation(scenario_case, base_case=None, optimum=None, strate
     distances1 = distances1.sub(distances2.mask(distances1 != 0, 0), axis='index', fill_value=0)
     changed = changed_path_lengths.sum()[changed_path_lengths.sum() != 0].index.tolist()
     nodes_of_interest = changed_path_lengths[changed]
-    sorter = pd.DataFrame({'max': nodes_of_interest.max(), 'sum': nodes_of_interest.sum()}).sort_values(
+    sorter = DataFrame({'max': nodes_of_interest.max(), 'sum': nodes_of_interest.sum()}).sort_values(
         ['sum', 'max'], ascending=False)
     nodes_of_interest = nodes_of_interest[sorter.index.tolist()]
 
@@ -424,7 +424,7 @@ def visualise_path_deviation(scenario_case, base_case=None, optimum=None, strate
 if __name__ == "__main__":
     import networkx as nx
     from RestorationNetwork import *
-    from network_evaluation import electrical_degree_centrality
+
     my_restoration_network = RestorationNetwork('50Hertz')
     my_restoration_network.set_load_case(LOAD_CASE)
     load_sum = my_restoration_network.load_series.sum()

@@ -2,7 +2,7 @@ import pandas as pd
 import networkx as nx
 
 from constants import *
-from helper_functions import print_me, generate_color_dict
+from additional_functionalities.helper_functions import print_me, generate_color_dict
 
 
 class RestorationNetwork:
