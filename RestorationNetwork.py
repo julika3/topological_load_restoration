@@ -29,6 +29,8 @@ class RestorationNetwork:
             self.substations = list(set(self.substation_dataframe[self.substation_dataframe[TYPE_COLUMN] ==
                                                                   NODE_TYPE_FILTER].index) &
                                 set(self.network_graph.nodes()))
+        else:
+            self.substations = self.network_graph.nodes()
         self.dual_substations = None
 
         self.load_case = None
