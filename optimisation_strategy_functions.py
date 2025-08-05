@@ -7,7 +7,7 @@ from constants import SLACK, SCENARIO_NAME, SCENARIO_LOCATION, SCENARIO_GENERATI
     SCENARIO_DESCRIPTION
 from RestorationNetwork import RestorationNetwork
 from helper_functions import print_me
-from load_restoration import validate_result, evaluate_restoration_result
+from load_restoration_strategy_functions import validate_result, evaluate_restoration_result
 
 
 class Node(object):

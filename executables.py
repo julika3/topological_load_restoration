@@ -2,9 +2,9 @@
 # most changes should be made in the constants file
 
 from RestorationNetwork import RestorationNetwork
-from load_restoration import superposition_regard_load, restoration_dispatch_evaluation, \
+from load_restoration_strategy_functions import superposition_regard_load, restoration_dispatch_evaluation, \
     resilience_indicator_strategy, strategy_scenario_comparison, compile_edc_indicators_for_load_restoration
-from optimisation_class_version import perform_optimisation, find_optimal_new_location
+from optimisation_strategy_functions import perform_optimisation, find_optimal_new_location
 from network_evaluation import (get_ranked_distances, compare_modes_of_betweenness_centrality,
                                 compare_modes_of_closeness_centrality, compare_modes_of_degree_centrality)
 from visualisation import shortest_distance_matrix_heatmap, plot_restored_generation, visualise_centrality, \
