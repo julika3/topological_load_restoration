@@ -2,7 +2,7 @@
 main.py:
 - create a RestorationNetwork class object for your network and run the executables
 - filepaths and model name must previously be specified in constants.py
-- an example network was included in the data folder
+- an example network was included in the data folder; the size of the example network makes meaningful insights unlikely
 
 constants.py:
 - specifies the filenames for the network model and additional substation information plus header names in said files
