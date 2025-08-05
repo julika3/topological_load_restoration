@@ -218,6 +218,7 @@ def run_scenario(restoration_network, node, build=False, shutdown=False, append_
                           SCENARIO_GENERATION_VALUE: STANDARD_POWER,
                           SCENARIO_DESCRIPTION: f'Neubau Kraftwerk {node}'}
     scenario_dict = new_build_scenario if build else shutdown_scenario
+    restoration_network.set_load_case(LOAD_CASE, scale=True)
     restoration_network.apply_scenario(scenario_dict, append_scenario=append_scenario,
                                           overwrite_prev=not append_scenario)
 
