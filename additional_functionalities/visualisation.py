@@ -377,9 +377,13 @@ def visualise_path_deviation(scenario_case, base_case=None, optimum=None, strate
     title_name_dict = {'superposition': 'Superposition', 'resilienzindikatoren': 'Resilienzindikatoren',
                        'optimierung': 'Optimierung'}
 
-    yaxis_bottom_range = int(-distances1[changed].sum().max()) - 1
-    yaxis_top_range = max(int(distances2[changed].sum().max()) + 1, 7) if optimum is None \
-        else int(distances2[changed].sum().max()) + 1
+    if changed:
+        yaxis_bottom_range = int(-distances1[changed].sum().max()) - 1
+        yaxis_top_range = max(int(distances2[changed].sum().max()) + 1, 7) if optimum is None \
+            else int(distances2[changed].sum().max()) + 1
+    else:
+        yaxis_bottom_range, yaxis_top_range = -5, 5
+        print_me('Keine Knoten mir veränderten Pfadlängen zwischen den Szenarien')
     yaxis2_startval = yaxis_bottom_range + 2 if yaxis_bottom_range % 2 == 0 else yaxis_bottom_range + 1
     yaxis_endval = yaxis_top_range - 1 if yaxis_top_range % 2 == 0 else yaxis_top_range
     fig.update_layout(barmode='relative', height=600, width=1200, margin_t=80,
