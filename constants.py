@@ -1,9 +1,10 @@
 # specify network name here
-NETWORK_MODEL_NAME = ''
+NETWORK_MODEL_NAME = 'example'
 
-NETWORK_MODELS = {NETWORK_MODEL_NAME: {'filepath_network': 'network_model.xlsx',
-                                       'filepath_substation_infos': 'substation_infos.xlsx'},
-                  }
+NETWORK_MODELS = {'template': {'filepath_network': 'network_model_template.xlsx',
+                               'filepath_substation_infos': 'substation_infos_template.xlsx'},
+                  'example': {'filepath_network': 'example_network.xlsx',
+                               'filepath_substation_infos': 'example_substation_infos.xlsx'}}
 
 
 LOAD_CASE = 'load_case_1'  # 'load_case_2'
