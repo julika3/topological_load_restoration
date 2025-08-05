@@ -75,26 +75,35 @@ def superposition_regard_load(restoration_network: RestorationNetwork,
     return distributed_power
 
 
-def resilience_indicator_based_approach(restoration_network: RestorationNetwork):
+def resilience_indicator_strategy(restoration_network: RestorationNetwork, generation_indicator=None,
+                                  load_indicator=None):
+    """
+    in this restoration strategy power is distributed started from the distance 0 and the generation node with the
+        highest indicator value; distribute power to all load nodes that can be reached over a geodesic
+        path of this distance; supply power to reachable load nodes in an order corresponding to their indicator value
+    iteration occurs over the distance first and for the generation nodes according to their indicator value once for
+        every distance iteration step
+    prioritise according to the index order of the given resilience indicators.
+    if none are given default to electric degree centrality
+    :param restoration_network:
+    :param generation_indicator: sorted (!) dataframe of indicators for generation nodes and the values
+    :param load_indicator: sorted (!) dataframe of indicators for load nodes and the values
+    :return:
+    """
+    if (generation_indicator is None) | (load_indicator is None):
+        generation_indicator, load_indicator = compile_edc_indicators_for_load_restoration(restoration_network)
 
     # dicts to store the dispatch results
     received_dict = {x: {'sum': 0} for x in restoration_network.load_nodes}
-    distribution_dict = {x: {'remaining': restoration_network.generation_series.loc[x]} for x in restoration_network.generators}
-
-    # Calculate electric degree centrality to define the order of
-    # 1. Power stations distributing their power and
-    # 2. Load nodes being chosen for dispatch
-    edc_dict = electrical_degree_centrality(restoration_network)
-    edc = pd.DataFrame.from_dict(edc_dict, orient='index')
-    edc_gen = edc.loc[restoration_network.generators].sort_values([0], ascending=False)
-    edc_load = edc.loc[restoration_network.load_nodes].sort_values([0], ascending=False)
+    distribution_dict = {x: {'remaining': restoration_network.generation_series.loc[x]}
+                         for x in restoration_network.generators}
 
     distance = 0
     max_distance_to_ps = restoration_network.shortest_distance_matrix.max().max()
     # Starting at the power stations (distance=0)
     # Move through network whilst increasing the path distance incrementally (distance += 1)
     while distance <= max_distance_to_ps:
-        for ps in edc_gen.index:
+        for ps in generation_indicator.index:
             ps_power = distribution_dict[ps]['remaining']
             if ps_power == 0:  # all power has already been distributed
                 continue
@@ -103,7 +112,7 @@ def resilience_indicator_based_approach(restoration_network: RestorationNetwork)
             path_lengths_ps = restoration_network.shortest_distance_matrix.transpose()[ps]
             connections = path_lengths_ps[path_lengths_ps == distance].index
             # rank the available connections via their edc value
-            connections_iterator = edc_load.loc[[x for x in connections
+            connections_iterator = load_indicator.loc[[x for x in connections
                                                  if x in restoration_network.load_nodes]].index
 
             # distribute the power starting at the load_node with the highest edc value
@@ -134,6 +143,21 @@ def resilience_indicator_based_approach(restoration_network: RestorationNetwork)
     validate_result(dispatched_power_df, restoration_network.generation_series)
 
     return dispatched_power_df
+
+
+def compile_edc_indicators_for_load_restoration(restoration_network):
+    """
+    calculate the edc indicator for and separately create dataframes for the generation and load nodes
+    then sort it so that the resilience_indicator_strategy can prioritise according to the index order (here descending)
+    """
+    # Calculate electric degree centrality to define the order of
+    # 1. Power stations distributing their power and
+    # 2. Load nodes being chosen for dispatch
+    edc_dict = electrical_degree_centrality(restoration_network)
+    edc = pd.DataFrame.from_dict(edc_dict, orient='index')
+    edc_gen = edc.loc[restoration_network.generators].sort_values([0], ascending=False)
+    edc_load = edc.loc[restoration_network.load_nodes].sort_values([0], ascending=False)
+    return edc_gen, edc_load
 
 
 def evaluate_restoration_result(restoration_network: RestorationNetwork, generation_distribution, mean=True,
